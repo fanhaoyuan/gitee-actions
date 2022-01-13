@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExceptionsFilter } from './filters';
 import { GiteeActionsModule } from './gitee-actions';
-
 @Module({
     imports: [GiteeActionsModule.register()],
 })
