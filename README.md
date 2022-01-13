@@ -4,7 +4,7 @@
 
 ## 流程
 
-![IMG](./workflow.png)
+![IMG](./time-flow.png)
 
 ## 功能列表
 
