@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@fansy/commit-msg-validator": "^1.0.0",
+    "@fansy/eslint-config": "^1.0.0",
     "@fansy/prettier-config": "^1.0.0",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
