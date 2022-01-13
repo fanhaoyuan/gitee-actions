@@ -8,10 +8,10 @@
 
 ## 功能列表
 
-[x] Pull Request 类型钩子
-[ ] Issue 类型钩子
-[ ] Comment 类型钩子
-[ ] Push 类型钩子
+-   [x] Pull Request 类型钩子
+-   [ ] Issue 类型钩子
+-   [ ] Comment 类型钩子
+-   [ ] Push 类型钩子
 
 ## 准备
 
