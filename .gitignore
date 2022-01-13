@@ -1,0 +1,4 @@
+dist/
+.workspace/
+*.log
+node_modules/
