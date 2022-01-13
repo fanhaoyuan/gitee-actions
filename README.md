@@ -30,6 +30,22 @@
 
 ## Nest 集成
 
+### 安装依赖
+
+```bash
+$> npm install gitee-actions
+```
+
+### 注册模块
+
+```ts
+import { GiteeActionsModule } from 'gitee-actions';
+@Module({
+    imports: [GiteeActionsModule.register(/* Options */)],
+})
+class AppModule {}
+```
+
 ## 许可证
 
 [MIT](./LICENSE)
