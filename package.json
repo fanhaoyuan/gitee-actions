@@ -3,6 +3,14 @@
     "version": "0.2.0",
     "description": "使用Gitee Webhooks 触发 Github Actions",
     "author": "Fansy <418536538@qq.com>",
+    "homepage": "https://github.com/fanhaoyuan/gitee-actions",
+    "bugs": {
+        "url": "https://github.com/fanhaoyuan/gitee-actions/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fanhaoyuan/gitee-actions.git"
+    },
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
     "license": "MIT",
