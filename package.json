@@ -9,6 +9,13 @@
     "files": [
         "dist"
     ],
+    "keywords": [
+        "github actions",
+        "ci",
+        "workflow",
+        "github",
+        "webhooks"
+    ],
     "scripts": {
         "prebuild": "rimraf dist",
         "build": "rimraf dist && rollup -c rollup.config.ts",
