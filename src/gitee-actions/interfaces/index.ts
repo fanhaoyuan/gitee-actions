@@ -40,5 +40,15 @@ export interface GiteeActionsOptions {
          * ['open', 'close', 'update', 'merge']
          */
         trigger?: PullRequestTrigger[];
+
+        /**
+         * 需要在合并后触发的分支名称（合并进去的分支名称）
+         *
+         * `trigger`中包含`'merge'`有效
+         *
+         * @default
+         * '*'
+         */
+        triggerAfterMerge?: RegExp | string;
     };
 }

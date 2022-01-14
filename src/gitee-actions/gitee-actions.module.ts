@@ -2,7 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { GITEE_ACTIONS_OPTIONS } from './constants';
 import { GiteeActionsController } from './gitee-actions.controller';
 import { GiteeActionsOptions } from './interfaces';
-import { PullRequestService, ConfigService, WorkspaceService, GitService } from './services';
+import { PullRequestService, ConfigService, WorkspaceService, WorkflowService } from './services';
 
 @Module({})
 export class GiteeActionsModule {
@@ -18,8 +18,9 @@ export class GiteeActionsModule {
                 PullRequestService,
                 ConfigService,
                 WorkspaceService,
-                GitService,
+                WorkflowService,
             ],
+            exports: [WorkspaceService, WorkflowService],
         };
     }
 }

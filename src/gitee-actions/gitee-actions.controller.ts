@@ -28,8 +28,11 @@ export class GiteeActionsController {
                 break;
 
             case 'merge':
+                this.pullRequestService.merge(giteePullRequestHooksDto);
+                break;
+
             case 'close':
-                this.pullRequestService.remove(giteePullRequestHooksDto);
+                // this.pullRequestService.remove(giteePullRequestHooksDto);
                 break;
         }
 

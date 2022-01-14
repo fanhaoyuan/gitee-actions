@@ -1,112 +1,90 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as fs from 'fs-extra';
 import { WorkspaceService } from './workspace.service';
-import { GitService } from './git.service';
 import { ConfigService } from './config.service';
 import { GiteePullRequestHooksDto } from '../dto';
 import { PullRequestTrigger } from '../interfaces';
-import { FolderType } from '../constants';
+import { WorkflowTriggerType } from '../constants';
+import { WorkflowService } from './workflow.service';
 
 @Injectable()
 export class PullRequestService {
-    @Inject()
-    readonly workspaceService: WorkspaceService;
+    private readonly _triggerType = WorkflowTriggerType.PULL_REQUEST;
 
     @Inject()
-    readonly configService: ConfigService;
+    private readonly workflowService: WorkflowService;
 
     @Inject()
-    readonly gitService: GitService;
+    private readonly workspaceService: WorkspaceService;
+
+    @Inject()
+    private readonly configService: ConfigService;
 
     /**
-     * 文件夹类型
-     *
-     * 固定是 FolderType.PULL_REQUEST
+     * 解析 DTO
+     * @param dto
      */
-    private readonly _folderType = FolderType.PULL_REQUEST;
+    private _analyseDTO(dto: GiteePullRequestHooksDto) {
+        const sourceBranch = dto.source_branch; //当前创建PR的分支名称
+        const remoteURL = dto.repository.ssh_url; //当前创建PR的仓库名称
+        const targetBranch = dto.target_branch; //当前PR要合并到的分支名称
+        const projectId = dto.repository.id; //当前创建PR的仓库ID
+        const pullRequestId = dto.pull_request.id; //当前PR的Id
 
-    /**
-     * 获取目标目录的绝对地址
-     * @param name 文件夹名称
-     */
-    private _getAbsolutePath(name: string) {
-        return this.workspaceService.getFolderPath(`${this._folderType}/${name}`);
+        const baseFolderName = this.workspaceService.getNormalizedPath(remoteURL, `${pullRequestId}`); //工作区中的基础文件夹名称
+
+        const sourceBranchFolderName = this.workspaceService.getNormalizedPath(baseFolderName, sourceBranch); //当前PR分支的文件夹名称
+
+        const targetBranchFolderName = this.workspaceService.getNormalizedPath(baseFolderName, targetBranch); //当前要合并的PR分支文件夹名称
+
+        const baseFolderPath = this.workspaceService.getFolderAbsolutePath(this._triggerType, baseFolderName); //工作区中的基础文件夹绝对路径
+
+        const sourceBranchFolderPath = this.workspaceService.getFolderAbsolutePath(
+            this._triggerType,
+            sourceBranchFolderName
+        ); //当前PR分支的文件夹绝对路径
+
+        const targetBranchFolderPath = this.workspaceService.getFolderAbsolutePath(
+            this._triggerType,
+            targetBranchFolderName
+        ); //当前要合并的PR分支文件夹绝对路径
+
+        return {
+            sourceBranch,
+            remoteURL,
+            targetBranch,
+            projectId,
+            pullRequestId,
+            baseFolderName,
+            baseFolderPath,
+            sourceBranchFolderName,
+            sourceBranchFolderPath,
+            targetBranchFolderName,
+            targetBranchFolderPath,
+        };
     }
 
-    /**
-     * 1. 在工作区内创建分支文件夹
-     * 2. 从 Gitee 拉取最新代码
-     * 3. 推送代码到 Github
-     */
-    async create(giteePullRequestHooksDto: GiteePullRequestHooksDto) {
-        const {
-            source_branch,
-            repository: { ssh_url, id: repositoryId },
-            pull_request: { id: pullRequestId },
-        } = giteePullRequestHooksDto;
+    async create(dto: GiteePullRequestHooksDto) {
+        const { sourceBranch, remoteURL, sourceBranchFolderName } = this._analyseDTO(dto);
 
-        const folderName = this.workspaceService.getFolderName(ssh_url, source_branch);
-
-        const path = this._getAbsolutePath(folderName);
-
-        const isExists = await fs.pathExists(path);
-
-        if (isExists) {
-            await this.workspaceService.removeFolder(this._folderType, folderName);
-        }
-
-        await this.workspaceService.createFolder(this._folderType, folderName);
-
-        await this.gitService.pullFromRemote(ssh_url, source_branch, path);
-
-        const sourceURL = this.configService.getSourceURL(ssh_url);
-
-        await this.gitService.enterFolderAndForcePush(path, sourceURL, source_branch);
-
-        await this.workspaceService.addInfoRecord(this._folderType, folderName, {
-            repositoryId,
-            pullRequestId,
+        await this.workflowService.run(this._triggerType, {
+            origin: remoteURL,
+            branch: sourceBranch,
+            dirName: sourceBranchFolderName,
         });
     }
 
-    async update(giteePullRequestHooksDto: GiteePullRequestHooksDto) {
-        const {
-            source_branch,
-            repository: { ssh_url },
-        } = giteePullRequestHooksDto;
-
-        const folderName = this.workspaceService.getFolderName(ssh_url, source_branch);
-
-        const path = this._getAbsolutePath(folderName);
-
-        const isExists = await fs.pathExists(path);
-
-        if (!isExists) {
-            await this.workspaceService.createFolder(this._folderType, folderName);
-
-            await this.gitService.pullFromRemote(ssh_url, source_branch, path);
-        }
-
-        await this.gitService.enterFolderAndPull(path);
-
-        const sourceURL = this.configService.getSourceURL(ssh_url);
-
-        await this.gitService.enterFolderAndForcePush(path, sourceURL, source_branch);
+    update(dto: GiteePullRequestHooksDto) {
+        return this.create(dto);
     }
 
-    async remove(giteePullRequestHooksDto: GiteePullRequestHooksDto) {
-        const {
-            source_branch,
-            repository: { ssh_url },
-        } = giteePullRequestHooksDto;
+    async merge(dto: GiteePullRequestHooksDto) {
+        const { targetBranch, remoteURL, targetBranchFolderName } = this._analyseDTO(dto);
 
-        const path = this._getAbsolutePath(this.workspaceService.getFolderName(ssh_url, source_branch));
-
-        await fs.remove(path);
-
-        const folderName = this.workspaceService.getFolderName(ssh_url, source_branch);
-
-        await this.workspaceService.removeInfoRecord(this._folderType, folderName);
+        await this.workflowService.run(this._triggerType, {
+            origin: remoteURL,
+            branch: targetBranch,
+            dirName: targetBranchFolderName,
+        });
     }
 
     /**
@@ -114,7 +92,7 @@ export class PullRequestService {
      * @param action 触发的钩子类型
      * @returns
      */
-    async validActions(action: PullRequestTrigger) {
+    validActions(action: PullRequestTrigger) {
         return (this.configService.config.pullRequest?.trigger || []).includes(action);
     }
 }

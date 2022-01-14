@@ -7,7 +7,6 @@ import * as progress from 'child_process';
  * @returns
  */
 export function exec(command: string, ...params: string[]) {
-    console.log(command);
     return new Promise((resolve, reject) => {
         const process = progress.spawn(command, params, {
             shell: true,
