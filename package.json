@@ -1,6 +1,6 @@
 {
     "name": "gitee-actions",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "使用Gitee Webhooks 触发 Github Actions",
     "author": "Fansy <418536538@qq.com>",
     "main": "dist/index.js",

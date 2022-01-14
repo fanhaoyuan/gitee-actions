@@ -46,6 +46,80 @@ import { GiteeActionsModule } from 'gitee-actions';
 class AppModule {}
 ```
 
+## API
+
+### WorkspaceService
+
+```ts
+declare class WorkspaceService {
+    /**
+     * 建立临时工作区
+     *
+     * @param type 触发流程的类型
+     * @param dirName 文件夹名称
+     */
+    setup(type: WorkflowTriggerType, dirName: string): Promise<void>;
+
+    /**
+     * 清理临时工作区
+     *
+     * @param type 触发流程的类型
+     * @param dirName 文件夹名称
+     */
+    cleanup(type: WorkflowTriggerType, dirName: string): Promise<void>;
+
+    /**
+     * 获取临时工作区绝对路径
+     *
+     * @param type 触发流程的类型
+     * @param dirName 文件夹名称
+     */
+    getFolderAbsolutePath(type: WorkflowTriggerType, dirName: string): string;
+
+    /**
+     * 获取处理后的路径
+     *
+     * @param type 触发流程的类型
+     * @param dirName 文件夹名称
+     */
+    getNormalizedPath(...paths: string[]): string;
+}
+```
+
+### WorkflowService
+
+```ts
+declare class WorkflowService {
+    /**
+     * 运行工作流
+     *
+     * 拉取并推送代码
+     *
+     * @param type 触发流程的类型
+     * @param options 配置项
+     */
+    run(type: WorkflowTriggerType, options: RunnerOptions): Promise<void>;
+    /**
+     * 检出代码
+     *
+     * @param origin 需要检出的仓库路径
+     * @param branch 需要检出的分支
+     * @param dirPath 检出到的文件夹路径（可选）
+     */
+    checkout(origin: string, branch: string, dirPath?: string): Promise<void>;
+
+    /**
+     * 推送代码
+     *
+     * @param dirPath 文件夹路径
+     * @param origin 源代码仓库路径
+     * @param sourceBranch 源代码分支
+     * @param targetBranch 需要推送到远端的分支 默认是与原分支一致
+     */
+    push(dirPath: string, origin: string, sourceBranch: string, targetBranch?: string): Promise<unknown>;
+}
+```
+
 ## 许可证
 
 [MIT](./LICENSE)
