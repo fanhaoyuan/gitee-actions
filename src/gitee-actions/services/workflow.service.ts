@@ -3,6 +3,10 @@ import { ConfigService } from './config.service';
 import { exec } from '../utils';
 import { WorkspaceService } from './workspace.service';
 import { WorkflowTriggerType } from '../constants';
+import glob from 'fast-glob';
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import yaml from 'yaml';
 
 interface RunnerOptions {
     /**
@@ -28,6 +32,13 @@ interface RunnerOptions {
      * 默认等于 `branch`
      */
     targetBranch?: string;
+
+    /**
+     * 注入的环境变量
+     *
+     * @default {}
+     */
+    env?: Record<string, string>;
 }
 
 @Injectable()
@@ -44,7 +55,7 @@ export class WorkflowService {
      * 拉取并推送代码
      */
     async run(type: WorkflowTriggerType, options: RunnerOptions) {
-        const { dirName, origin, branch, targetBranch } = options;
+        const { dirName, origin, branch, targetBranch, env = {} } = options;
         /**
          * 创建临时工作区
          */
@@ -58,6 +69,11 @@ export class WorkflowService {
         await this.checkout(origin, branch, workspacePath);
 
         /**
+         * 注入环境变量
+         */
+        await this.injectEnv(workspacePath, env);
+
+        /**
          * 推送代码到指定位置
          */
         await this.push(workspacePath, origin, branch, targetBranch);
@@ -69,6 +85,26 @@ export class WorkflowService {
          * 清理当前工作区
          */
         await this.workspaceService.cleanup(type, dirName);
+    }
+
+    /**
+     * 注入环境变量
+     */
+    async injectEnv(dirPath: string, env: Record<string, string>) {
+        const yamlFiles = await glob([
+            path.resolve(dirPath, '.github/workflows', '*.yml'),
+            path.resolve(dirPath, '.github/workflows', '*.yaml'),
+        ]);
+
+        for await (const filePath of yamlFiles) {
+            const file = await fs.readFile(filePath, 'utf-8');
+
+            const yml = yaml.parse(file);
+
+            Object.assign((yml.env ??= {}), env);
+
+            await fs.writeFile(filePath, yaml.stringify(yml), 'utf-8');
+        }
     }
 
     /**
