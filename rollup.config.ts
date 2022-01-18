@@ -10,8 +10,8 @@ const input = 'index.ts';
 export default defineConfig([
     {
         input,
-        plugins: [nodeResolve(), commonjs(), esbuild()],
-        external: ['fs-extra', '@nestjs/common', 'child_process', 'path'],
+        plugins: [nodeResolve(), commonjs(), esbuild({ target: 'es2018' })],
+        external: ['fs-extra', '@nestjs/common', 'child_process', 'path', 'yaml', 'axios', 'fast-glob'],
         output: {
             format: 'cjs',
             exports: 'auto',
