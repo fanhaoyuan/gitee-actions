@@ -1,3 +1,9 @@
+## v0.3.0
+
+-   🚀 添加了 Gitee 模块的评论 Pull Request 功能
+-   🚀 导出了 Gitee 的 Pull Request 基础功能（查询 Pull Request 详情）
+-   🚀 添加了 Github Actions 的环境变量注入
+
 ## v0.2.0
 
 -   🔧 修改 Pull Request 触发类型 'merge' 的通用处理方法

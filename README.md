@@ -48,7 +48,9 @@ class AppModule {}
 
 ## API
 
-### WorkspaceService
+### Gitee Actions Module
+
+#### WorkspaceService
 
 ```ts
 declare class WorkspaceService {
@@ -86,7 +88,7 @@ declare class WorkspaceService {
 }
 ```
 
-### WorkflowService
+#### WorkflowService
 
 ```ts
 declare class WorkflowService {
@@ -117,6 +119,54 @@ declare class WorkflowService {
      * @param targetBranch 需要推送到远端的分支 默认是与原分支一致
      */
     push(dirPath: string, origin: string, sourceBranch: string, targetBranch?: string): Promise<unknown>;
+}
+```
+
+### Gitee Module
+
+#### GiteePullRequestService
+
+```ts
+declare class PullRequestService {
+    private readonly config;
+    private readonly httpService;
+    /**
+     * 评论 Pull Request
+     * @param remote 仓库地址
+     * @param number PR的序号
+     * @param message 评论的信息
+     */
+    comment(
+        remote: string,
+        number: number,
+        message: string
+    ): Promise<{
+        message: string;
+    }>;
+
+    /**
+     * 获取 Pull Request详情
+     * @param remote 仓库地址
+     * @param pullRequestId Pull Request Id
+     * @param branch 分支名称
+     */
+    getDetail(remote: string, pullRequestId: string, branch?: string): Promise<any>;
+
+    /**
+     * 获取 Pull Request列表
+     * @param remote 仓库地址
+     * @param params 查询参数
+     */
+    getList(
+        remote: string,
+        params?: {
+            head?: string;
+            state?: 'open' | 'closed' | 'merged' | 'all';
+        }
+    ): Promise<{
+        message: string;
+        data: any;
+    }>;
 }
 ```
 
