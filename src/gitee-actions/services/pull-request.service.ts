@@ -23,14 +23,17 @@ export class PullRequestService {
      * 解析 DTO
      * @param dto
      */
-    private _analyseDTO(dto: GiteePullRequestHooksDto) {
+    analyseDTO(dto: GiteePullRequestHooksDto) {
         const sourceBranch = dto.source_branch; //当前创建PR的分支名称
         const remoteURL = dto.repository.ssh_url; //当前创建PR的仓库名称
         const targetBranch = dto.target_branch; //当前PR要合并到的分支名称
         const projectId = dto.repository.id; //当前创建PR的仓库ID
         const pullRequestId = dto.pull_request.id; //当前PR的Id
 
-        const baseFolderName = this.workspaceService.getNormalizedPath(remoteURL, `${pullRequestId}`); //工作区中的基础文件夹名称
+        const baseFolderName = this.workspaceService.getNormalizedPath(
+            remoteURL
+            // `${pullRequestId}`,
+        ); //工作区中的基础文件夹名称
 
         const sourceBranchFolderName = this.workspaceService.getNormalizedPath(baseFolderName, sourceBranch); //当前PR分支的文件夹名称
 
@@ -63,13 +66,32 @@ export class PullRequestService {
         };
     }
 
+    /**
+     * 获取 PullRequest 的环境变量
+     * @param dto
+     * @returns
+     */
+    getPullRequestEnv(dto: GiteePullRequestHooksDto) {
+        return {
+            author_user_name: dto.author.name,
+            author_user_remark: dto.author.remark,
+            source_branch: dto.source_branch,
+            project_id: dto.repository.id,
+            remote_url: dto.repository.ssh_url,
+            pull_request_id: dto.pull_request.id,
+            pull_request_title: dto.pull_request.title,
+        };
+    }
+
     async create(dto: GiteePullRequestHooksDto) {
-        const { sourceBranch, remoteURL, sourceBranchFolderName } = this._analyseDTO(dto);
+        const { sourceBranch, remoteURL, sourceBranchFolderName } = this.analyseDTO(dto);
 
         await this.workflowService.run(this._triggerType, {
             origin: remoteURL,
             branch: sourceBranch,
             dirName: sourceBranchFolderName,
+            commitMessage: dto.title,
+            env: this.getPullRequestEnv(dto),
         });
     }
 
@@ -78,12 +100,14 @@ export class PullRequestService {
     }
 
     async merge(dto: GiteePullRequestHooksDto) {
-        const { targetBranch, remoteURL, targetBranchFolderName } = this._analyseDTO(dto);
+        const { targetBranch, remoteURL, targetBranchFolderName } = this.analyseDTO(dto);
 
         await this.workflowService.run(this._triggerType, {
             origin: remoteURL,
             branch: targetBranch,
             dirName: targetBranchFolderName,
+            commitMessage: dto.title,
+            env: this.getPullRequestEnv(dto),
         });
     }
 

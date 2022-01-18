@@ -6,17 +6,32 @@ import * as progress from 'child_process';
  * @param params 命令参数
  * @returns
  */
-export function exec(command: string, ...params: string[]) {
+export function exec(command: string, ...params: string[]): Promise<string> {
+    console.log(command);
     return new Promise((resolve, reject) => {
         const process = progress.spawn(command, params, {
             shell: true,
+        });
+
+        let result = '';
+
+        process.stdout.on('data', data => {
+            result += data.toString();
+            console.log(data.toString());
         });
 
         process.once('close', (code, signal) => {
             if (code) {
                 return reject(new Error(JSON.stringify({ code, signal })));
             }
-            resolve(code);
+            resolve(result);
         });
     });
+}
+
+/**
+ * 生成 UUID
+ */
+export function uuid() {
+    return Math.random().toString(36).slice(-6);
 }

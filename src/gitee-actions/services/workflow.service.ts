@@ -1,12 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from './config.service';
-import { exec } from '../utils';
+import { exec, uuid } from '../utils';
 import { WorkspaceService } from './workspace.service';
 import { WorkflowTriggerType } from '../constants';
 import glob from 'fast-glob';
-import * as fs from 'fs-extra';
 import * as path from 'path';
+import * as fs from 'fs-extra';
 import yaml from 'yaml';
+
+yaml.scalarOptions.null.nullStr = '';
 
 interface RunnerOptions {
     /**
@@ -34,11 +36,16 @@ interface RunnerOptions {
     targetBranch?: string;
 
     /**
-     * 注入的环境变量
+     * 提交信息
      *
-     * @default {}
+     * @default 最新的提交消息
      */
-    env?: Record<string, string>;
+    commitMessage?: string;
+
+    /**
+     * 注入环境变量
+     */
+    env?: Record<string, string | number>;
 }
 
 @Injectable()
@@ -55,7 +62,7 @@ export class WorkflowService {
      * 拉取并推送代码
      */
     async run(type: WorkflowTriggerType, options: RunnerOptions) {
-        const { dirName, origin, branch, targetBranch, env = {} } = options;
+        const { dirName, origin, branch, targetBranch, env = {}, commitMessage } = options;
         /**
          * 创建临时工作区
          */
@@ -71,40 +78,22 @@ export class WorkflowService {
         /**
          * 注入环境变量
          */
-        await this.injectEnv(workspacePath, env);
+        await this.injectEnv(workspacePath, {
+            ...env,
+            trigger_type: type,
+        });
+
+        const message = commitMessage ?? (await exec('git log -1 --pretty=%s'));
 
         /**
          * 推送代码到指定位置
          */
-        await this.push(workspacePath, origin, branch, targetBranch);
+        await this.push(workspacePath, origin, message, branch, targetBranch);
 
-        /**
-         * 拉取最新代码到临时工作区
-         */
         /**
          * 清理当前工作区
          */
         await this.workspaceService.cleanup(type, dirName);
-    }
-
-    /**
-     * 注入环境变量
-     */
-    async injectEnv(dirPath: string, env: Record<string, string>) {
-        const yamlFiles = await glob([
-            path.resolve(dirPath, '.github/workflows', '*.yml'),
-            path.resolve(dirPath, '.github/workflows', '*.yaml'),
-        ]);
-
-        for await (const filePath of yamlFiles) {
-            const file = await fs.readFile(filePath, 'utf-8');
-
-            const yml = yaml.parse(file);
-
-            Object.assign((yml.env ??= {}), env);
-
-            await fs.writeFile(filePath, yaml.stringify(yml), 'utf-8');
-        }
     }
 
     /**
@@ -124,15 +113,55 @@ export class WorkflowService {
     }
 
     /**
+     * 注入github workflows环境变量
+     * @param dirPath
+     * @param variables
+     */
+    async injectEnv(dirPath: string, variables: Record<string, string>) {
+        const yamlFiles = await glob([
+            path.resolve(dirPath, '.github/workflows', '*.yml'),
+            path.resolve(dirPath, '.github/workflows', '*.yaml'),
+        ]);
+
+        for await (const filePath of yamlFiles) {
+            const file = await fs.readFile(filePath, 'utf-8');
+
+            const yml = yaml.parse(file);
+
+            Object.assign((yml.env ??= {}), variables);
+
+            await fs.writeFile(filePath, yaml.stringify(yml), 'utf-8');
+        }
+    }
+
+    /**
      * 进入临时文件夹推送代码
      * @param dirPath 临时文件夹目录路径
      * @param origin 源仓库地址
+     * @param commitMessage 提交信息
      * @param sourceBranch 源分支名称
      * @param targetBranch 要推送到的目标分支
      */
-    async push(dirPath: string, origin: string, sourceBranch: string, targetBranch = sourceBranch) {
+    async push(
+        dirPath: string,
+        origin: string,
+        commitMessage: string,
+        sourceBranch: string,
+        targetBranch = sourceBranch
+    ) {
         const upstream = this.configService.getSourceURL(origin);
 
-        return exec(`cd ${dirPath} && git push -f ${upstream} ${sourceBranch}:${targetBranch}`);
+        await fs.remove(path.resolve(dirPath, '.git'));
+
+        const randomBranch = `gitee-actions/${uuid()}`;
+
+        return exec(
+            `cd ${dirPath} \
+      && git init \
+      && git add . \
+      && git checkout -b ${randomBranch} \
+      && git commit -m ${commitMessage} --quiet --no-verify \
+      && git push -f ${upstream} ${randomBranch}:${targetBranch}`
+        );
     }
 }
