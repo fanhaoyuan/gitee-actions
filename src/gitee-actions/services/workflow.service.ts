@@ -172,7 +172,7 @@ export class WorkflowService {
       && git init \
       && git add . \
       && git checkout -b ${randomBranch} \
-      && git commit -m ${commitMessage} --quiet --no-verify \
+      && git commit -m "${commitMessage}" --quiet --no-verify \
       && git push -f ${upstream} ${randomBranch}:${targetBranch}`
         );
     }
