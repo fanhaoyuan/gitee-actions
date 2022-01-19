@@ -4,6 +4,23 @@
 export type PullRequestTrigger = 'open' | 'close' | 'update' | 'merge';
 
 /**
+ * Pull Request 的更新类型
+ */
+export type PullRequestUpdateType =
+    /**
+     * 源分支改变
+     */
+    | 'source_branch_changed'
+    /**
+     * 目标合并分支改变
+     */
+    | 'target_branch_changed'
+    /**
+     * 关联任务
+     */
+    | 'update_link_issue';
+
+/**
  * Gitee Actions 配置项
  *
  * @default {}
@@ -50,5 +67,22 @@ export interface GiteeActionsOptions {
          * '*'
          */
         triggerAfterMerge?: RegExp | string;
+
+        /**
+         * 是否在Pull Request 更新时触发
+         *
+         * 默认只有在源分支改变时重新触发流程
+         *
+         * @default
+         * ['source_branch_changed']
+         */
+        triggerActionWithUpdate?: PullRequestUpdateType[];
+
+        /**
+         * 是否启用默认服务
+         *
+         * @default true
+         */
+        httpService?: boolean;
     };
 }

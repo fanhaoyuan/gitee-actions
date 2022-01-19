@@ -34,6 +34,11 @@ export class GiteePullRequestHooksDto {
     readonly action: 'open' | 'update' | 'close' | 'merge';
 
     /**
+     * PR 描述
+     */
+    readonly action_desc: string;
+
+    /**
      * PR 的信息。
      */
     readonly pull_request: GiteePullRequestDto;

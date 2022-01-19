@@ -96,7 +96,13 @@ export class PullRequestService {
     }
 
     update(dto: GiteePullRequestHooksDto) {
-        return this.create(dto);
+        const shouldTrigger =
+            this.configService.config.pullRequest?.triggerActionWithUpdate ||
+            ['source_branch_changed'].includes(dto.action_desc);
+
+        if (shouldTrigger) {
+            return this.create(dto);
+        }
     }
 
     async merge(dto: GiteePullRequestHooksDto) {
