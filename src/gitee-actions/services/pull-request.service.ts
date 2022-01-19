@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { ConfigService } from './config.service';
 import { GiteePullRequestHooksDto } from '../dto';
-import { PullRequestTrigger } from '../interfaces';
+import { PullRequestTrigger, PullRequestUpdateType } from '../interfaces';
 import { WorkflowTriggerType } from '../constants';
 import { WorkflowService } from './workflow.service';
 
@@ -96,9 +96,9 @@ export class PullRequestService {
     }
 
     update(dto: GiteePullRequestHooksDto) {
-        const shouldTrigger =
-            this.configService.config.pullRequest?.triggerActionWithUpdate ||
-            ['source_branch_changed'].includes(dto.action_desc);
+        const shouldTrigger = (
+            this.configService.config.pullRequest?.triggerActionWithUpdate || ['source_branch_changed']
+        ).includes(dto.action_desc as PullRequestUpdateType);
 
         if (shouldTrigger) {
             return this.create(dto);
