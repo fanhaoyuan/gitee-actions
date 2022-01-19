@@ -1,3 +1,7 @@
+## update-to-date
+
+-   🐛 修复因解析 yaml 失败时导致的错误
+
 ## v0.3.0
 
 -   🚀 添加了 Gitee 模块的评论 Pull Request 功能

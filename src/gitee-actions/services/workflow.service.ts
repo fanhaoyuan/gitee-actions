@@ -8,8 +8,6 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import yaml from 'yaml';
 
-yaml.scalarOptions.null.nullStr = '';
-
 interface RunnerOptions {
     /**
      * 代码源仓库地址
@@ -126,11 +124,25 @@ export class WorkflowService {
         for await (const filePath of yamlFiles) {
             const file = await fs.readFile(filePath, 'utf-8');
 
-            const yml = yaml.parse(file);
+            let yml;
 
-            Object.assign((yml.env ??= {}), variables);
+            try {
+                yml = yaml.parse(file);
 
-            await fs.writeFile(filePath, yaml.stringify(yml), 'utf-8');
+                Object.assign((yml.env ??= {}), variables);
+            } catch (error) {
+                console.log('YAML 文档解析错误：', error);
+                yml = file;
+            } finally {
+                await fs.writeFile(
+                    filePath,
+                    yaml.stringify(yml, {
+                        nullStr: '',
+                        indent: 4,
+                    }),
+                    'utf-8'
+                );
+            }
         }
     }
 
