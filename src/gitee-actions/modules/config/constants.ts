@@ -1,0 +1,1 @@
+export const GLOBAL_CONFIG = 'GLOBAL_CONFIG';
