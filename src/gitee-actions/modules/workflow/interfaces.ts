@@ -92,3 +92,23 @@ export interface WorkflowInjectOptions {
      */
     variables?: Record<string, string | number>;
 }
+
+/**
+ * 合并代码配置项
+ */
+export interface WorkflowMergeOptions {
+    /**
+     * 工作区目录
+     */
+    directory: string;
+
+    /**
+     * 需要合并的目标分支
+     */
+    targetBranch: string;
+
+    /**
+     * 需要合并的目标地址
+     */
+    targetRemote: string;
+}

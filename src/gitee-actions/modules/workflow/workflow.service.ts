@@ -10,6 +10,7 @@ import { WorkspaceService } from '../workspace';
 import {
     WorkflowCheckoutOptions,
     WorkflowInjectOptions,
+    WorkflowMergeOptions,
     WorkflowPushOptions,
     WorkflowRunnerOptions,
 } from './interfaces';
@@ -134,5 +135,14 @@ export class WorkflowService {
                 );
             }
         }
+    }
+
+    /**
+     * 合并两个分支
+     */
+    async merge(options: WorkflowMergeOptions) {
+        const { directory, targetBranch, targetRemote } = options;
+
+        await exec(`cd ${directory} && git remote add upstream ${targetRemote} && git merge upstream/${targetBranch}`);
     }
 }
