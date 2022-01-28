@@ -15,26 +15,17 @@ export interface WorkflowRunnerOptions {
     /**
      * 源代码分支
      */
-    sourceBranch: string;
+    branch: string;
 
     /**
-     * 默认等于 `branch`
+     * 推送信息
      */
-    targetBranch?: string;
+    message: string;
 
     /**
-     * 提交信息
-     *
-     * @default 最新的提交消息
+     * 注入环境变量
      */
-    commitMessage?: string;
-
-    /**
-     * 需要注入的环境变量
-     *
-     * @default {}
-     */
-    inject?: Record<string, string | number>;
+    inject?: Record<string, any>;
 }
 
 /**
@@ -90,7 +81,7 @@ export interface WorkflowInjectOptions {
     /**
      * 需要注入的变量
      */
-    variables?: Record<string, string | number>;
+    variables?: Record<string, any>;
 }
 
 /**

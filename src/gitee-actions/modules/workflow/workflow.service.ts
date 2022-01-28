@@ -57,8 +57,8 @@ export class WorkflowService {
      *
      * 拉取并推送代码
      */
-    async run(options: WorkflowRunnerOptions) {
-        const { directory, remote, sourceBranch, targetBranch = sourceBranch, inject = {}, commitMessage } = options;
+    async run(options: WorkflowRunnerOptions, runner?: () => Promise<void> | void) {
+        const { directory, remote, branch, message, inject } = options;
         /**
          * 创建临时工作区
          */
@@ -67,30 +67,30 @@ export class WorkflowService {
         /**
          * 检出代码
          */
-        await this.checkout({
-            remote,
-            directory,
-            branch: sourceBranch,
-        });
+        await this.checkout({ remote, directory, branch });
+
+        /**
+         * 执行工作流
+         */
+        await runner?.();
 
         /**
          * 注入环境变量
          */
-        await this.inject({
-            directory,
-            variables: inject,
-        });
-
-        const message = commitMessage ?? (await exec('git log -1 --pretty=%s'));
+        if (inject) {
+            await this.inject({
+                directory,
+                variables: inject,
+            });
+        }
 
         /**
-         * 推送代码到指定位置
+         * 推送代码
          */
         await this.push({
             directory,
-            remote,
+            remote: this.configService.getUpstream(remote),
             commitMessage: message,
-            branch: targetBranch,
         });
 
         /**
@@ -138,7 +138,7 @@ export class WorkflowService {
     }
 
     /**
-     * 合并两个分支
+     * 合并目标分支
      */
     async merge(options: WorkflowMergeOptions) {
         const { directory, targetBranch, targetRemote } = options;
