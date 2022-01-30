@@ -9,7 +9,19 @@ import { GlobalConfig } from './interfaces';
  */
 @Injectable()
 export class ConfigService {
-    constructor(@Inject(GLOBAL_CONFIG) readonly config: GlobalConfig) {}
+    constructor(@Inject(GLOBAL_CONFIG) readonly config: GlobalConfig) {
+        this.config = Object.assign(this._getDefaultConfig(), config);
+    }
+
+    private _getDefaultConfig(): GlobalConfig {
+        const cwd = process.cwd();
+
+        return {
+            workspace: `${cwd}/.workspace`,
+            mode: 'ssh',
+            config: `${cwd}/gitee.actions.config.*`,
+        };
+    }
 
     get workspace() {
         return this.config.workspace || `${process.cwd()}/.workspace`;
