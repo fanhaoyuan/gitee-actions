@@ -15,6 +15,8 @@ import {
     WorkflowRunnerOptions,
 } from './interfaces';
 
+import { normalizeInjection } from './utils';
+
 @Injectable()
 export class WorkflowService {
     @Inject()
@@ -89,6 +91,7 @@ export class WorkflowService {
             directory,
             remote: this.configService.getRemoteByURL('github', remote),
             commitMessage: message,
+            branch,
         });
 
         /**
@@ -118,7 +121,7 @@ export class WorkflowService {
             try {
                 yml = yaml.parse(file);
 
-                Object.assign((yml.env ??= {}), variables);
+                Object.assign((yml.env ??= {}), normalizeInjection(variables));
             } catch (error) {
                 console.log('YAML 文档解析错误：', error);
                 yml = file;
@@ -141,6 +144,10 @@ export class WorkflowService {
     async merge(options: WorkflowMergeOptions) {
         const { directory, targetBranch, targetRemote } = options;
 
-        await exec(`cd ${directory} && git remote add upstream ${targetRemote} && git merge upstream/${targetBranch}`);
+        const upstream = 'gitee_actions_upstream';
+
+        await exec(
+            `cd ${directory} && git remote add ${upstream} ${targetRemote} && git pull ${upstream} ${targetBranch}`
+        );
     }
 }

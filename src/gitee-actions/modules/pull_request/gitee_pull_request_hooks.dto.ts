@@ -1,7 +1,4 @@
-import { GiteeEnterpriseDto } from './gitee-enterprise.dto';
-import { GiteeProjectDto } from './gitee-project.dto';
-import { GiteePullRequestDto } from './gitee-pull-request.dto';
-import { GiteeUserDto } from './gitee-user-dto';
+import { GiteeEnterpriseDto, GiteeProjectDto, GiteePullRequestDto, GiteeUserDto } from '../../dto';
 
 export class GiteePullRequestHooksDto {
     /**钩子 id */
@@ -44,7 +41,7 @@ export class GiteePullRequestHooksDto {
     readonly pull_request: GiteePullRequestDto;
 
     /**
-     *  PR 的 id。
+     *  PR 的 序号
      */
     readonly number: number;
 

@@ -1,3 +1,5 @@
+import { PullRequestUpdateType } from '../pull_request';
+
 /**
  * 仓库地址类型
  */
@@ -30,6 +32,16 @@ export type HTTP<
  * 仓库地址
  */
 export type Remote = SSH | HTTP;
+
+export interface PullRequestConfig {
+    /**
+     * PR 更新时需要触发的类型
+     *
+     * @default
+     * ['source_branch_changed', 'target_branch_changed']
+     */
+    updateTriggerType?: PullRequestUpdateType[];
+}
 
 /**
  * 全局配置项
@@ -76,4 +88,9 @@ export interface GlobalConfig {
      * (owner, repo) => [owner, repo]
      */
     rewrite?: (owner: Owner, repo: Repo) => [Owner, Repo];
+
+    /**
+     * PR 相关配置项
+     */
+    pr?: PullRequestConfig;
 }

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as fs from 'fs-extra';
+import { omit } from 'lodash';
 import { GLOBAL_CONFIG } from './constants';
 import { GlobalConfig, Host, HTTP, Owner, Repo, SSH, Remote } from './interfaces';
 
@@ -33,6 +34,9 @@ export class ConfigService {
             mode: 'ssh',
             config: `${cwd}/actions.config.js`,
             rewrite: (owner: Owner, repo: Repo) => [owner, repo],
+            pr: {
+                updateTriggerType: ['source_branch_changed', 'target_branch_changed'],
+            },
         };
     }
 
@@ -67,6 +71,8 @@ export class ConfigService {
         const fileConfig = await this._resolveConfigFile(inlineConfig.config || defaultConfig.config);
 
         this.config = this.mergeConfig(defaultConfig, fileConfig, inlineConfig);
+
+        console.log(this.config);
     }
 
     /**
@@ -93,7 +99,9 @@ export class ConfigService {
             return mergedConfig;
         }
 
-        return this.mergeConfig(Object.assign({}, mergedConfig, cfg), ...rest);
+        mergedConfig['pr'] = Object.assign({}, mergedConfig['pr'], cfg['pr']);
+
+        return this.mergeConfig(Object.assign({}, mergedConfig, omit(cfg, 'pr')), ...rest);
     }
 
     private _getGiteeRemote<H extends Host, O extends Owner, R extends Repo>(host: H, owner: O, repo: R) {
