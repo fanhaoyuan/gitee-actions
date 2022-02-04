@@ -1,4 +1,5 @@
 import { GiteeUserDto } from './gitee-user-dto';
+import { SSH, HTTP } from '../modules/config';
 
 export class GiteeProjectDto {
     readonly id: number;
@@ -71,12 +72,12 @@ export class GiteeProjectDto {
     /**
      * 仓库的 ssh 地址。eg：git@gitee.com:oschina/git-osc.git
      */
-    readonly ssh_url: string;
+    readonly ssh_url: SSH<'gitee'>;
 
     /**
      * 仓库的 clone 地址。eg：https://gitee.com/oschina/git-osc.git
      */
-    readonly clone_url: string;
+    readonly clone_url: HTTP<'gitee'>;
 
     /**
      * 仓库的 svn 地址。eg：svn://gitee.com/oschina/git-osc
@@ -86,12 +87,12 @@ export class GiteeProjectDto {
     /**
      * 与上面的 clone_url 一致。
      */
-    readonly git_http_url: string;
+    readonly git_http_url: HTTP<'gitee'>;
 
     /**
      * 与上面的 ssh_url 一致。
      */
-    readonly git_ssh_url: string;
+    readonly git_ssh_url: SSH<'gitee'>;
 
     /**
      * 与上面的 svn_url 一致。

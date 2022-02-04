@@ -1,3 +1,5 @@
+import { Remote } from '../config';
+
 /**
  * Workflow 运行器配置项
  */
@@ -5,7 +7,7 @@ export interface WorkflowRunnerOptions {
     /**
      * 代码源仓库地址
      */
-    remote: string;
+    remote: Remote;
 
     /**
      * 临时工作区文件夹路径
@@ -39,7 +41,7 @@ export interface WorkflowPushOptions {
     /**
      * 源仓库地址
      */
-    remote: string;
+    remote: Remote;
     /**
      * 提交信息
      */
@@ -58,7 +60,7 @@ export interface WorkflowCheckoutOptions {
     /**
      * 检出代码的远端地址
      */
-    remote: string;
+    remote: Remote;
     /**
      * 需要检出的分支
      */
@@ -101,5 +103,5 @@ export interface WorkflowMergeOptions {
     /**
      * 需要合并的目标地址
      */
-    targetRemote: string;
+    targetRemote: Remote;
 }

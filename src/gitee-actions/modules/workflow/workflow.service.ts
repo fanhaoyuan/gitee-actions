@@ -41,14 +41,12 @@ export class WorkflowService {
     async push(options: WorkflowPushOptions) {
         const { directory, remote, commitMessage, branch } = options;
 
-        const upstream = this.configService.getUpstream(remote);
-
         await fs.remove(path.resolve(directory, '.git'));
 
         const randomBranch = `gitee-actions/${uuid()}`;
 
         return exec(
-            `cd ${directory} && git init && git add . && git checkout -b ${randomBranch} && git commit -m "${commitMessage}" --quiet --no-verify && git push -f ${upstream} ${randomBranch}:${branch}`
+            `cd ${directory} && git init && git add . && git checkout -b ${randomBranch} && git commit -m "${commitMessage}" --quiet --no-verify && git push -f ${remote} ${randomBranch}:${branch}`
         );
     }
 
@@ -89,7 +87,7 @@ export class WorkflowService {
          */
         await this.push({
             directory,
-            remote: this.configService.getUpstream(remote),
+            remote: this.configService.getRemoteByURL('github', remote),
             commitMessage: message,
         });
 

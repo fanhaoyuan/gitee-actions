@@ -33,6 +33,6 @@ export class WorkspaceService {
      * @param paths
      */
     getDirectory(...paths: string[]) {
-        return path.resolve(this.configService.workspace, paths.map(p => p.replace(/\//g, '+')).join('+'));
+        return path.resolve(this.configService.config.workspace, paths.map(p => p.replace(/\//g, '+')).join('+'));
     }
 }

@@ -2,6 +2,34 @@
  * 仓库地址类型
  */
 export type RemoteMode = 'ssh' | 'http';
+/**
+ * 仓库类型
+ */
+export type Host = 'github' | 'gitee';
+/**
+ * 仓库拥有者名称
+ */
+export type Owner = string;
+/**
+ * 仓库名称
+ */
+export type Repo = string;
+/**
+ * SSH 地址
+ */
+export type SSH<H extends Host = Host, O extends Owner = Owner, R extends Repo = Repo> = `git@${H}.com:${O}/${R}.git`;
+/**
+ * HTTP 地址
+ */
+export type HTTP<
+    H extends Host = Host,
+    O extends Owner = Owner,
+    R extends Repo = Repo
+> = `https://${H}.com/${O}/${R}.git`;
+/**
+ * 仓库地址
+ */
+export type Remote = SSH | HTTP;
 
 /**
  * 全局配置项
@@ -38,4 +66,14 @@ export interface GlobalConfig {
      * 'ssh'
      */
     mode?: RemoteMode | [RemoteMode, RemoteMode];
+
+    /**
+     * 仓库映射方法
+     *
+     * 只在获取 github 仓库地址时生效
+     *
+     * @default
+     * (owner, repo) => [owner, repo]
+     */
+    rewrite?: (owner: Owner, repo: Repo) => [Owner, Repo];
 }
