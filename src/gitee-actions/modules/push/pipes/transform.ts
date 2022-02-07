@@ -15,15 +15,19 @@ export class TransformPipe implements PipeTransform {
     private readonly workspaceService: WorkspaceService;
 
     transform(dto: GiteePushHooksDTO): Push {
-        const { deleted, created, ref, repository, pusher, head_commit } = dto;
+        const { deleted, created, ref, repository, pusher, head_commit, hook_name } = dto;
+
+        const type = hook_name === 'push_hooks' ? 'branch' : 'tags';
 
         const trigger = this._triggerType;
-        const branch = ref.replace('refs/heads/', '');
+        const branch = type === 'branch' ? ref.replace('refs/heads/', '') : null;
+        const tag = type === 'tags' ? ref.replace('refs/tags/', '') : null;
         const remote = repository.ssh_url;
-        const folder = this.workspaceService.getDirectory(trigger, remote, branch);
+        const folder = this.workspaceService.getDirectory(trigger, remote, branch || tag);
 
         return {
             trigger,
+            type,
             branch,
             folder,
             ref,
@@ -39,6 +43,7 @@ export class TransformPipe implements PipeTransform {
                 remark: pusher.remark || null,
             },
             message: head_commit.message,
+            tag,
         };
     }
 }

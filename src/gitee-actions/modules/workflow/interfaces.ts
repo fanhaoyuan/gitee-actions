@@ -20,6 +20,11 @@ export interface WorkflowRunnerOptions {
     branch: string;
 
     /**
+     * 自定义拉取代码
+     */
+    checkout?(options: WorkflowCheckoutOptions): void | Promise<void>;
+
+    /**
      * 推送信息
      */
     message: string;

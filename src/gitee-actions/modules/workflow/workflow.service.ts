@@ -58,7 +58,7 @@ export class WorkflowService {
      * 拉取并推送代码
      */
     async run(options: WorkflowRunnerOptions, runner?: () => Promise<void> | void) {
-        const { directory, remote, branch, message, inject } = options;
+        const { directory, remote, branch, message, inject, checkout = this.checkout } = options;
         /**
          * 创建临时工作区
          */
@@ -67,7 +67,7 @@ export class WorkflowService {
         /**
          * 检出代码
          */
-        await this.checkout({ remote, directory, branch });
+        await checkout({ remote, directory, branch });
 
         /**
          * 执行工作流
