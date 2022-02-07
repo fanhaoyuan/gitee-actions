@@ -19,6 +19,7 @@ export class PushService {
             remote: this.configService.getRemoteByURL('gitee', remote.http),
             branch,
             message,
+            inject: push,
         });
     }
 }
