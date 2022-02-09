@@ -15,8 +15,12 @@
     "typings": "dist/index.d.ts",
     "license": "MIT",
     "files": [
-        "dist"
+        "dist",
+        "bin"
     ],
+    "bin": {
+        "gitee-actions": "node bin/app.js"
+    },
     "keywords": [
         "github actions",
         "ci",
@@ -44,6 +48,7 @@
         "@nestjs/core": "^8.0.0",
         "@nestjs/platform-express": "^8.0.0",
         "axios": "^0.25.0",
+        "commander": "^9.0.0",
         "fast-glob": "^3.2.11",
         "fs-extra": "^10.0.0",
         "lodash": "^4.17.21",

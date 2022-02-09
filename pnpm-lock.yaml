@@ -22,6 +22,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
   axios: ^0.25.0
+  commander: ^9.0.0
   esbuild: ^0.14.11
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
@@ -53,6 +54,7 @@ dependencies:
   '@nestjs/core': 8.2.4_8b22effdebed417d7c9b4d391c70f023
   '@nestjs/platform-express': 8.2.4_4074b1ae164556f5db19ac4b8b5667b7
   axios: 0.25.0
+  commander: 9.0.0
   fast-glob: 3.2.11
   fs-extra: 10.0.0
   lodash: 4.17.21
@@ -2299,6 +2301,11 @@ packages:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
     dev: true
+
+  /commander/9.0.0:
+    resolution: {integrity: sha512-JJfP2saEKbQqvW+FI93OYUB4ByV5cizMpFMiiJI8xDbBvQvSkIk0VvQdn1CZ8mqAO8Loq2h0gYTYtDFUZUeERw==}
+    engines: {node: ^12.20.0 || >=14}
+    dev: false
 
   /commondir/1.0.1:
     resolution: {integrity: sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=}
