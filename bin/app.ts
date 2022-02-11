@@ -33,21 +33,25 @@ program
     .option('-c, --config <path>', '配置项路径')
     .option('-w, --workspace <path>', '工作区路径')
     .action(options => {
-        const configPath = getAbsolutePath(options.config);
+        if (options.config) {
+            const configPath = getAbsolutePath(options.config);
 
-        if (!configPath) {
-            throw new Error('配置项路径解析错误');
+            if (!configPath) {
+                throw new Error('配置项路径解析错误');
+            }
+
+            options.config = configPath;
         }
 
-        options.config = configPath;
+        if (options.workspace) {
+            const workspacePath = getAbsolutePath(options.workspace);
 
-        const workspacePath = getAbsolutePath(options.workspace);
+            if (!workspacePath) {
+                throw new Error('工作区路径解析错误');
+            }
 
-        if (!workspacePath) {
-            throw new Error('工作区路径解析错误');
+            options.workspace = workspacePath;
         }
-
-        options.workspace = workspacePath;
 
         bootstrap(options);
     });
