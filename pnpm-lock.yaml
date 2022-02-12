@@ -20,7 +20,6 @@ specifiers:
   '@types/supertest': ^2.0.11
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
-  axios: ^0.25.0
   commander: ^9.0.0
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
@@ -48,7 +47,6 @@ dependencies:
   '@nestjs/common': 8.2.4_88a789cb3f20cca25c3f70fe96f41643
   '@nestjs/core': 8.2.4_8b22effdebed417d7c9b4d391c70f023
   '@nestjs/platform-express': 8.2.4_4074b1ae164556f5db19ac4b8b5667b7
-  axios: 0.25.0
   commander: 9.0.0
   fast-glob: 3.2.11
   fs-extra: 10.0.0
@@ -1828,14 +1826,6 @@ packages:
 
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
-    dependencies:
-      follow-redirects: 1.14.7
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios/0.25.0:
-    resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
     dependencies:
       follow-redirects: 1.14.7
     transitivePeerDependencies:
