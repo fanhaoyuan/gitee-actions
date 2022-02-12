@@ -1,8 +1,8 @@
-import { GiteeUserDto } from './gitee-user-dto';
-import { GiteeMilestoneDto } from './gitee-milestone.dto';
-import { GiteeBranchDto } from './gitee-branch.dto';
+import { GiteeUserDTO } from './gitee_user';
+import { GiteeMilestoneDTO } from './gitee_milestone';
+import { GiteeBranchDTO } from './gitee_branch';
 
-export class GiteePullRequestDto {
+export class GiteePullRequestDTO {
     readonly id: number;
     /**
      * 与上面 id 一致
@@ -72,27 +72,27 @@ export class GiteePullRequestDto {
     /**
      * PR 的创建者。
      */
-    readonly user: GiteeUserDto;
+    readonly user: GiteeUserDTO;
 
     /**
      * PR 的负责人。
      */
-    readonly assignee: GiteeUserDto | null;
+    readonly assignee: GiteeUserDTO | null;
 
     /**
      * PR 的审核人。
      */
-    readonly assignees: GiteeUserDto[] | null;
+    readonly assignees: GiteeUserDTO[] | null;
 
     /**
      * PR 的测试者。
      */
-    readonly tester: GiteeUserDto | null;
+    readonly tester: GiteeUserDTO | null;
 
     /**
      * PR 的所有测试者。
      */
-    readonly testers: GiteeUserDto[] | null;
+    readonly testers: GiteeUserDTO[] | null;
 
     /**
      * PR 是否需要测试。
@@ -107,17 +107,17 @@ export class GiteePullRequestDto {
     /**
      * PR 所属的里程碑。
      */
-    readonly milestone: GiteeMilestoneDto | null;
+    readonly milestone: GiteeMilestoneDTO | null;
 
     /**
      * PR 的源分支。
      */
-    readonly head: GiteeBranchDto | null;
+    readonly head: GiteeBranchDTO | null;
 
     /**
      * PR 要合并的目标分支
      */
-    readonly base: GiteeBranchDto;
+    readonly base: GiteeBranchDTO;
 
     /**
      * PR 是否已合并。
@@ -137,7 +137,7 @@ export class GiteePullRequestDto {
     /**
      * PR 的修改者。
      */
-    readonly updated_by: GiteeUserDto | null;
+    readonly updated_by: GiteeUserDTO | null;
 
     /**
      * PR 的总评论数量。

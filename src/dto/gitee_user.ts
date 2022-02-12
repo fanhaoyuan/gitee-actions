@@ -1,4 +1,4 @@
-export class GiteeUserDto {
+export class GiteeUserDTO {
     readonly id?: number;
 
     /**

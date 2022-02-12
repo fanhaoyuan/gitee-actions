@@ -1,4 +1,4 @@
-export class GiteeEnterpriseDto {
+export class GiteeEnterpriseDTO {
     /**
      * 企业名。eg：开源中国
      */

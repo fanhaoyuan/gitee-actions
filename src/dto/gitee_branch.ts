@@ -1,7 +1,7 @@
-import { GiteeProjectDto } from './gitee-project.dto';
-import { GiteeUserDto } from './gitee-user-dto';
+import { GiteeProjectDTO } from './gitee_project';
+import { GiteeUserDTO } from './gitee_user';
 
-export class GiteeBranchDto {
+export class GiteeBranchDTO {
     /**
      * 分支标记。eg：oschina:master
      */
@@ -20,10 +20,10 @@ export class GiteeBranchDto {
     /**
      * 分支所在仓库的所有者信息
      */
-    readonly user: GiteeUserDto;
+    readonly user: GiteeUserDTO;
 
     /**
      * 分支所在仓库的信息
      */
-    readonly repo: GiteeProjectDto;
+    readonly repo: GiteeProjectDTO;
 }

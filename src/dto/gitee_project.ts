@@ -1,7 +1,7 @@
-import { GiteeUserDto } from './gitee-user-dto';
-import { SSH, HTTP } from '../modules/config';
+import { GiteeUserDTO } from './gitee_user';
+import { SSH, HTTP } from '../modules';
 
-export class GiteeProjectDto {
+export class GiteeProjectDTO {
     readonly id: number;
 
     /**
@@ -22,7 +22,7 @@ export class GiteeProjectDto {
     /**
      * 仓库的所有者。
      */
-    readonly owner: GiteeUserDto;
+    readonly owner: GiteeUserDTO;
 
     /**
      *  是否公开。

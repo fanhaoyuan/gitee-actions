@@ -1,4 +1,4 @@
-import { GiteeUserDto } from './gitee-user-dto';
+import { GiteeUserDTO } from './gitee_user';
 
 /**git commit 中的信息 */
 export class GiteeCommitDTO {
@@ -15,9 +15,9 @@ export class GiteeCommitDTO {
     /**commit 对应的 Gitee url */
     url: string;
     /**作者信息 */
-    author: GiteeUserDto;
+    author: GiteeUserDTO;
     /**提交者信息 */
-    committer: GiteeUserDto;
+    committer: GiteeUserDTO;
     /**特殊的 commit，没任何改动，如 tag */
     distinct: boolean;
     /**新加入的文件名 */

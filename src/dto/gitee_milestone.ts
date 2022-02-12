@@ -1,4 +1,4 @@
-export class GiteeMilestoneDto {
+export class GiteeMilestoneDTO {
     /**
      * Gitee 上对应的 url。eg：https://gitee.com/oschina/git-osc/milestones/1
      */
