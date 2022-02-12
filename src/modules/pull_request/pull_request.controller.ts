@@ -1,10 +1,11 @@
-import { Body, Controller, Inject, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Inject, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { Actions } from './actions.guard';
 import { Premerge } from './premerge.guard';
 import { Update } from './update.guard';
 import { TransformPipe } from './transform.pipe';
 import { PullRequest } from './interfaces';
 import { PullRequestService } from './pull_request.service';
+import { ValidatorGuard } from './validator.guard';
 
 const success = (pr: PullRequest) => ({
     message: '触发成功',
@@ -14,6 +15,7 @@ const success = (pr: PullRequest) => ({
 });
 
 @Controller('/gitee_actions/pull_request')
+@UseGuards(ValidatorGuard)
 @UsePipes(TransformPipe)
 export class PullRequestController {
     @Inject()
