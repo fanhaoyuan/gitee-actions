@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExceptionsFilter } from './filters';
 import { GiteeActionsModule, GlobalConfig } from './gitee-actions';
+import { omit } from 'lodash';
 
 function getAppModule(config: GlobalConfig = {}) {
     @Module({
@@ -12,9 +13,9 @@ function getAppModule(config: GlobalConfig = {}) {
     return AppModule;
 }
 
-export async function bootstrap(config: GlobalConfig = {}) {
-    const AppModule = getAppModule(config);
+export async function bootstrap(config: GlobalConfig & { port?: number } = {}) {
+    const AppModule = getAppModule(omit(config, 'port'));
     const app = await NestFactory.create(AppModule);
     app.useGlobalFilters(new ExceptionsFilter());
-    await app.listen(3000);
+    await app.listen(config.port || 3000);
 }

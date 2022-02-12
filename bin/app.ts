@@ -32,6 +32,7 @@ program
     .version(version, '-v, --version', '版本信息')
     .option('-c, --config <path>', '配置项路径')
     .option('-w, --workspace <path>', '工作区路径')
+    .option('-p, --port <port>', '启动服务器的端口')
     .action(options => {
         if (options.config) {
             const configPath = getAbsolutePath(options.config);
