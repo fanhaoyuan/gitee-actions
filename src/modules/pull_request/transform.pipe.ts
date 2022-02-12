@@ -1,17 +1,17 @@
 import { Inject, Injectable, PipeTransform } from '@nestjs/common';
-import { GiteePullRequestHooksDto } from './gitee_pull_request_hooks.dto';
-import { WorkflowTriggerType } from '../../constants';
+import { GiteePullRequestHooksDTO } from '@/dto';
+import { WorkflowTriggerType } from '@/constants';
 import { WorkspaceService } from '../workspace';
 import { PullRequest } from './interfaces';
 
 @Injectable()
-export class DtoPipe implements PipeTransform {
+export class TransformPipe implements PipeTransform {
     private readonly _triggerType = WorkflowTriggerType.PULL_REQUEST;
 
     @Inject()
     private readonly workspaceService: WorkspaceService;
 
-    transform(value: GiteePullRequestHooksDto): PullRequest {
+    transform(value: GiteePullRequestHooksDTO): PullRequest {
         const sourceBranch = value.source_branch; //当前创建PR的分支名称
         const remoteURL = value.repository.ssh_url; //当前创建PR的仓库名称
         const targetBranch = value.target_branch; //当前PR要合并到的分支名称

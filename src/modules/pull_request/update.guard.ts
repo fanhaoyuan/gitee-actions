@@ -7,7 +7,7 @@ import {
     applyDecorators,
     UseGuards,
 } from '@nestjs/common';
-import { ConfigService } from '../../config';
+import { ConfigService } from '../config';
 
 /**
  * 更新触发类型守卫

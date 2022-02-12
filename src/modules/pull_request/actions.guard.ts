@@ -8,7 +8,7 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { PullRequestAction } from '../interfaces';
+import { PullRequestAction } from './interfaces';
 
 /**
  * PR 动作守卫

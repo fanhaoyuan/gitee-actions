@@ -1,6 +1,8 @@
 import { Body, Controller, Inject, Post, UsePipes } from '@nestjs/common';
-import { Actions, Premerge, Update } from './guards';
-import { DtoPipe } from './dto.pipe';
+import { Actions } from './actions.guard';
+import { Premerge } from './premerge.guard';
+import { Update } from './update.guard';
+import { TransformPipe } from './transform.pipe';
 import { PullRequest } from './interfaces';
 import { PullRequestService } from './pull_request.service';
 
@@ -12,7 +14,7 @@ const success = (pr: PullRequest) => ({
 });
 
 @Controller('/gitee_actions/pull_request')
-@UsePipes(DtoPipe)
+@UsePipes(TransformPipe)
 export class PullRequestController {
     @Inject()
     private readonly pullRequestService: PullRequestService;
