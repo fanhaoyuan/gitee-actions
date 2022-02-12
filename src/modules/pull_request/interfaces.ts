@@ -1,5 +1,5 @@
 import { WorkflowTriggerType } from '../../constants';
-import { SSH, HTTP } from '../config';
+import { SSH, HTTP, Owner, Repo } from '../config';
 
 /**
  * 可以触发的 PR 钩子 action 类型
@@ -138,4 +138,14 @@ export interface PullRequest {
      * 更新类型
      */
     updateType: string | null;
+
+    /**
+     * 仓库所属
+     */
+    owner: Owner;
+
+    /**
+     * 仓库名称
+     */
+    repo: Repo;
 }

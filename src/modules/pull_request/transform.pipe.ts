@@ -3,10 +3,14 @@ import { GiteePullRequestHooksDTO } from '@/dto';
 import { WorkflowTriggerType } from '@/constants';
 import { WorkspaceService } from '../workspace';
 import { PullRequest } from './interfaces';
+import { ConfigService } from '../config';
 
 @Injectable()
 export class TransformPipe implements PipeTransform {
     private readonly _triggerType = WorkflowTriggerType.PULL_REQUEST;
+
+    @Inject()
+    private readonly configService: ConfigService;
 
     @Inject()
     private readonly workspaceService: WorkspaceService;
@@ -20,12 +24,16 @@ export class TransformPipe implements PipeTransform {
 
         const targetBranchFolder = this.workspaceService.getDirectory(this._triggerType, remoteURL, targetBranch); //当前要合并的PR分支文件夹路径
 
+        const [owner, repo] = this.configService.resolveURL(remoteURL);
+
         return {
             id: value.pull_request.id,
             projectId: value.repository.id,
             number: value.number,
             mergeable: value.pull_request.mergeable,
             title: value.title,
+            owner,
+            repo,
             source: {
                 branch: sourceBranch,
                 folder: sourceBranchFolder,
