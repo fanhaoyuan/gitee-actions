@@ -6,5 +6,7 @@ export * from './gitee_label';
 export * from './gitee_milestone';
 export * from './gitee_note';
 export * from './gitee_project';
+export * from './gitee_pull_request_hooks';
 export * from './gitee_pull_request';
+export * from './gitee_push_hooks';
 export * from './gitee_user';

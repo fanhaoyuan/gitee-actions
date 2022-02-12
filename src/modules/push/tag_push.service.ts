@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { WorkflowService, WorkflowRunnerOptions } from '../../workflow';
-import { exec } from '../../../utils';
-import { Push } from '../interfaces';
-import { ConfigService } from '../../config';
+import { WorkflowService, WorkflowRunnerOptions } from '../workflow';
+import { exec } from '@/utils';
+import { Push } from './interfaces';
+import { ConfigService } from '../config';
 
 @Injectable()
 export class TagPushService {

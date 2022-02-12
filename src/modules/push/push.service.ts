@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '../../config';
-import { WorkflowService } from '../../workflow';
-import { Push } from '../interfaces';
+import { ConfigService } from '../config';
+import { WorkflowService } from '../workflow';
+import { Push } from './interfaces';
 
 @Injectable()
 export class PushService {

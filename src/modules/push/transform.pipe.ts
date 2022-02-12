@@ -1,8 +1,8 @@
 import { Inject, Injectable, PipeTransform } from '@nestjs/common';
-import { WorkflowTriggerType } from '../../../constants';
-import { WorkspaceService } from '../../workspace';
-import { GiteePushHooksDTO } from '../dto';
-import { Push } from '../interfaces';
+import { WorkflowTriggerType } from '@/constants';
+import { WorkspaceService } from '../workspace';
+import { GiteePushHooksDTO } from '@/dto';
+import { Push } from './interfaces';
 
 /**
  * 转换 DTO 的管道

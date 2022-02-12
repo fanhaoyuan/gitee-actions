@@ -1,5 +1,5 @@
 import { BadRequestException, CanActivate, ExecutionContext, Injectable, NotAcceptableException } from '@nestjs/common';
-import { GiteePushHooksDTO } from '../dto';
+import { GiteePushHooksDTO } from '@/dto';
 
 /**
  * 检验是否是正确的钩子

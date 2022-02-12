@@ -1,8 +1,9 @@
 import { Body, Controller, Inject, Post, UseGuards, UsePipes } from '@nestjs/common';
-import { ValidatorGuard } from '../guards';
-import { Push } from '../interfaces';
-import { TransformPipe } from '../pipes';
-import { PushService, TagPushService } from '../services';
+import { ValidatorGuard } from './validator.guard';
+import { Push } from './interfaces';
+import { TransformPipe } from './transform.pipe';
+import { PushService } from './push.service';
+import { TagPushService } from './tag_push.service';
 
 const success = (push: Push) => ({
     message: '触发成功',

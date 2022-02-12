@@ -1,4 +1,7 @@
-import { GiteeCommitDTO, GiteeEnterpriseDto, GiteeProjectDto, GiteeUserDto } from '../../../dto';
+import { GiteeEnterpriseDTO } from './gitee_enterprise';
+import { GiteeCommitDTO } from './gitee_commit';
+import { GiteeProjectDTO } from './gitee_project';
+import { GiteeUserDTO } from './gitee_user';
 
 /**
  * Push / Tag Hook数据类型
@@ -37,17 +40,17 @@ export class GiteePushHooksDTO {
     /**推送最前面的 commit 信息 */
     readonly head_commit: GiteeCommitDTO;
     /**推送的目标仓库信息。 */
-    readonly repository: GiteeProjectDto;
+    readonly repository: GiteeProjectDTO;
     /**推送的目标仓库信息 */
-    readonly project: GiteeProjectDto;
+    readonly project: GiteeProjectDTO;
     /**推送者的昵称 */
     readonly user_id: number;
     /**推送者的用户信息 */
-    readonly user: GiteeUserDto;
+    readonly user: GiteeUserDTO;
     /**推送者的用户信息 */
-    readonly pusher: GiteeUserDto;
+    readonly pusher: GiteeUserDTO;
     /**推送者的用户信息 */
-    readonly sender: GiteeUserDto;
+    readonly sender: GiteeUserDTO;
     /**推送的目标仓库所在的企业信息 */
-    readonly enterprise: GiteeEnterpriseDto | null;
+    readonly enterprise: GiteeEnterpriseDTO | null;
 }

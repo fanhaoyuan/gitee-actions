@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PushController } from './controllers';
+import { PushController } from './push.controller';
 import { WorkspaceModule } from '../workspace';
-import { PushService, TagPushService } from './services';
+import { PushService } from './push.service';
+import { TagPushService } from './tag_push.service';
 import { WorkflowModule } from '../workflow';
 
 @Module({
