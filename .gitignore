@@ -2,3 +2,5 @@ dist/
 .workspace/
 *.log
 node_modules/
+.umi
+.umi-production

@@ -18,5 +18,6 @@
         "paths": {
             "@/*": ["src/*"]
         }
-    }
+    },
+    "exclude": [".umirc.ts", "jest.config.ts"]
 }
