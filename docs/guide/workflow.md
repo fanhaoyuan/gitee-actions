@@ -4,7 +4,7 @@ order: 2
 title: 工作原理
 ---
 
-<img src='/time-flow.png' height='700px'/>
+<img src='../../public/time-flow.png' height='700px'/>
 
 ## 配置
 

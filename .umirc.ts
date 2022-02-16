@@ -1,13 +1,15 @@
 import { defineConfig } from 'dumi';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
     title: 'Gitee Actions',
     mode: 'site',
     // more config: https://d.umijs.org/config
     description: 'Gitee Webhooks ✖️ Github Actions',
     locales: [['zh-CN', '中文']],
-    logo: '/logo.svg',
-    favicon: '/logo.svg',
+    logo: isProd ? '/gitee-actions/logo.svg' : '/logo.svg',
+    favicon: isProd ? '/gitee-actions/logo.svg' : '/logo.svg',
     base: '/gitee-actions/',
     publicPath: '/gitee-actions/',
     outputPath: 'docs-dist',
