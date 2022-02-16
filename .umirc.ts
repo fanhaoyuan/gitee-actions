@@ -8,6 +8,9 @@ export default defineConfig({
     locales: [['zh-CN', '中文']],
     logo: '/logo.svg',
     favicon: '/logo.svg',
+    base: '/gitee-actions/',
+    publicPath: '/gitee-actions/',
+    outputPath: 'docs-dist',
     navs: [
         {
             title: '指南',
