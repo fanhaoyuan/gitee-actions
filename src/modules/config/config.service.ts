@@ -71,8 +71,6 @@ export class ConfigService {
         const fileConfig = await this._resolveConfigFile(inlineConfig.config || defaultConfig.config);
 
         this.config = this.mergeConfig(defaultConfig, fileConfig, inlineConfig);
-
-        console.log(this.config);
     }
 
     /**
