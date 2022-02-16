@@ -63,7 +63,7 @@ export interface GlobalConfig {
      * 在配置文件中忽略该项
      *
      * @default
-     * `${process.cwd()}/gitee.actions.config.*`
+     * `${process.cwd()}/actions.config.js`
      */
     config?: string;
 

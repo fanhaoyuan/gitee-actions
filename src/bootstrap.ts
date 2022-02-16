@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExceptionsFilter } from './filters';
-import { GiteeActionsModule, GlobalConfig } from './gitee-actions';
+import { GiteeActionsModule } from './gitee_actions.module';
 import { omit } from 'lodash';
+import { GlobalConfig } from './modules';
 
 function getAppModule(config: GlobalConfig = {}) {
     @Module({
