@@ -5,6 +5,8 @@ toc: menu
 
 ## Webhooks API
 
+由于`Gitee Webhooks`的要求，所以下列的`API`的请求方法均为`POST`。
+
 ### 创建 PR
 
 -   路径： `/gitee_actions/pull_request/open`
