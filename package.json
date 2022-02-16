@@ -18,7 +18,7 @@
         "dist"
     ],
     "bin": {
-        "gitee-actions": "node dist/bin/app.js"
+        "gitee-actions": "dist/bin/app.js"
     },
     "keywords": [
         "github actions",
