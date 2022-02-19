@@ -1,6 +1,8 @@
 # Gitee Actions
 
 [![Build & Test](https://github.com/fanhaoyuan/gitee-actions/actions/workflows/ci.yml/badge.svg)](https://github.com/fanhaoyuan/gitee-actions/actions/workflows/ci.yml)
+[![Docs Deploy](https://github.com/fanhaoyuan/gitee-actions/actions/workflows/docs-deploy.yml/badge.svg)](https://fanhaoyuan.github.io/gitee-actions/)
+[![codecov](https://codecov.io/gh/fanhaoyuan/gitee-actions/branch/master/graph/badge.svg?token=LYCSQATRSI)](https://codecov.io/gh/fanhaoyuan/gitee-actions)
 
 `Gitee Actions`是一个可以通过`Gitee Webhooks`来触发`Github Actions`的工具。
 

@@ -6,11 +6,15 @@ on:
             - master
         paths:
             - 'docs/**'
+            - '.umirc.ts'
+            - 'CHANGELOG.md'
     pull_request:
         branches:
             - master
         paths:
             - 'docs/**'
+            - '.umirc.ts'
+            - 'CHANGELOG.md'
     workflow_dispatch:
 
 jobs:
