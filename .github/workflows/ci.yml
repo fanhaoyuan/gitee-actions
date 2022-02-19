@@ -8,7 +8,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    build:
+    Build:
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -43,7 +43,7 @@ jobs:
             - name: Build bundle
               run: pnpm run build
 
-    eslint:
+    ESLint:
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -70,12 +70,20 @@ jobs:
             - name: ESLint
               run: pnpm exec eslint ./src
 
-    test:
+    Test:
         runs-on: ubuntu-latest
         strategy:
             matrix:
+                os: [ubuntu-latest]
                 node_version: [16]
+                include:
+                    - os: macos-latest
+                      node_version: 16
+                    - os: windows-latest
+                      node_version: 16
+            fail-fast: false
 
+        name: 'Test: node-${{ matrix.node_version }}, ${{ matrix.os }}'
         steps:
             - name: Checkout
               uses: actions/checkout@v2
