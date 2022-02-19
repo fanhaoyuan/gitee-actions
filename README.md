@@ -1,5 +1,7 @@
 # Gitee Actions
 
+[![Build & Test](https://github.com/fanhaoyuan/gitee-actions/actions/workflows/ci.yml/badge.svg)](https://github.com/fanhaoyuan/gitee-actions/actions/workflows/ci.yml)
+
 `Gitee Actions`是一个可以通过`Gitee Webhooks`来触发`Github Actions`的工具。
 
 `Gitee Actions`使用`Nest`构建，可以快速嵌入到现有的`Nest`应用或者新建一个`Nest`应用。
