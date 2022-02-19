@@ -156,7 +156,7 @@ export class ConfigService {
      * @param url
      * @returns
      */
-    isHTTP(url: Remote): url is HTTP {
+    isHTTP(url: string): url is HTTP {
         return /^https:\/\//.test(url);
     }
 
@@ -165,7 +165,7 @@ export class ConfigService {
      * @param url
      * @returns
      */
-    isSSH(url: Remote): url is SSH {
+    isSSH(url: string): url is SSH {
         return /^git@/.test(url);
     }
 
