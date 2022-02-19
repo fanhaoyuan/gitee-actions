@@ -19,5 +19,5 @@
             "@/*": ["src/*"]
         }
     },
-    "exclude": [".umirc.ts", "jest.config.ts"]
+    "exclude": [".umirc.ts", "dist/"]
 }
