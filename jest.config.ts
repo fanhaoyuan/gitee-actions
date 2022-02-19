@@ -8,8 +8,10 @@ const config: Config.InitialOptions = {
         '^.+\\.(t|j)s$': 'ts-jest',
     },
     collectCoverageFrom: ['**/*.(t|j)s'],
+    coveragePathIgnorePatterns: ['src/.umi.*/'],
     coverageDirectory: '../coverage',
     testEnvironment: 'node',
+    testPathIgnorePatterns: ['/node_modules/', 'src/.umi.*/'],
 };
 
 export default config;
