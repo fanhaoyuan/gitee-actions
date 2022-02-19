@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { ConfigService } from './config.service';
 import { GLOBAL_CONFIG } from './constants';
-import { GlobalConfig, Owner, Repo } from './interfaces';
+import { GlobalConfig, Owner, RemoteMode, Repo } from './interfaces';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import { uniqueId } from 'lodash';
@@ -45,7 +45,19 @@ describe('ConfigService', () => {
     });
 
     it('Mode Getter', () => {
+        const currentMode = configService.config.mode;
+
+        configService.config.mode = 'ssh';
+
         expect(configService.mode).toStrictEqual(['ssh', 'ssh']);
+
+        const mode: [RemoteMode, RemoteMode] = ['ssh', 'http'];
+
+        configService.config.mode = mode;
+
+        expect(configService.mode).toStrictEqual(mode);
+
+        configService.config.mode = currentMode;
     });
 
     it('合并配置项', () => {
