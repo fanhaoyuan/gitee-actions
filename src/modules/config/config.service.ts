@@ -53,7 +53,7 @@ export class ConfigService {
         let content: GlobalConfig;
 
         try {
-            content = (await import(filePath)).default || {};
+            content = (await import(filePath)).default;
         } catch (error) {
             content = {};
         }
@@ -115,7 +115,7 @@ export class ConfigService {
     private _getGithubRemote<H extends Host, O extends Owner, R extends Repo>(host: H, owner: O, repo: R) {
         const [, mode] = this.mode;
 
-        const [_owner, _repo] = this.config.rewrite?.(owner, repo) || [owner, repo];
+        const [_owner, _repo] = this.config.rewrite(owner, repo);
 
         if (mode === 'ssh') {
             return this.ssh(host, _owner, _repo);
