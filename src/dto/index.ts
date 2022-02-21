@@ -1,4 +1,5 @@
 export * from './gitee_branch';
+export * from './gitee_comment_hooks';
 export * from './gitee_commit';
 export * from './gitee_enterprise';
 export * from './gitee_issue';
