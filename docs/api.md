@@ -55,3 +55,23 @@ toc: menu
 <Alert type='error'>
 删除分支、标签不支持触发
 </Alert>
+
+## Operation API
+
+### Deploy <Badge>v1.1.0+</Badge>
+
+-   方法: `POST`
+-   路径: `/gitee_actions/operation/deploy`
+-   参数:
+
+| 名称     | 描述               | 类型     |
+| -------- | ------------------ | -------- |
+| `remote` | 仓库路径           | `string` |
+| `folder` | 需要发布到的文件夹 | `string` |
+| `branch` | 需要发布的分支名称 | `string` |
+
+-   例子
+
+```bash
+>$ curl -X POST --data-urlencode "branch=DIST_APPLICATION" --data-urlencode "remote=git@github.com:fanhaoyuan/gitee-actions.git" --data-urlencode "folder=/home/root/Desktop/nginx/application/" http://localhost:3000/gitee_actions/operation/deploy
+```
