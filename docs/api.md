@@ -66,7 +66,7 @@ toc: menu
 
 | 名称     | 描述               | 类型     |
 | -------- | ------------------ | -------- |
-| `remote` | 仓库路径           | `string` |
+| `remote` | `Gitee`仓库路径    | `string` |
 | `folder` | 需要发布到的文件夹 | `string` |
 | `branch` | 需要发布的分支名称 | `string` |
 
