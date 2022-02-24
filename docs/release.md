@@ -1,5 +1,5 @@
 ---
-toc: false
+toc: menu
 title: 更新日志
 ---
 
