@@ -9,6 +9,8 @@ on:
             - '.umirc.ts'
             - 'CHANGELOG.md'
     pull_request:
+        types:
+            - synchronize
         branches:
             - master
         paths:
