@@ -67,3 +67,11 @@ interface PullRequestConfig {
     updateTriggerType?: PullRequestUpdateType[];
 }
 ```
+
+### inject
+
+-   类型: `Record<string, string> | ((owner: Owner, repo: Repo, trigger: WorkflowTriggerType) => Record<string, string>)`
+-   默认值: `{}`
+-   描述:
+
+自定义注入项, 会覆盖原有变量。
