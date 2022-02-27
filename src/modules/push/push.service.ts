@@ -1,3 +1,4 @@
+import { WorkflowTriggerType } from '@/constants';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '../config';
 import { WorkflowService } from '../workflow';
@@ -20,6 +21,7 @@ export class PushService {
             branch,
             message,
             inject: push,
+            triggerType: WorkflowTriggerType.PUSH,
         });
     }
 }

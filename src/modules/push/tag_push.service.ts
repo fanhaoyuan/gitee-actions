@@ -3,6 +3,7 @@ import { WorkflowService, WorkflowRunnerOptions } from '../workflow';
 import { exec } from '@/utils';
 import { Push } from './interfaces';
 import { ConfigService } from '../config';
+import { WorkflowTriggerType } from '@/constants';
 
 @Injectable()
 export class TagPushService {
@@ -22,6 +23,7 @@ export class TagPushService {
             message,
             inject: push,
             directory: folder,
+            triggerType: WorkflowTriggerType.PUSH,
         });
     }
 

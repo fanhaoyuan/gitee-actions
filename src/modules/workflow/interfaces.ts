@@ -1,3 +1,4 @@
+import { WorkflowTriggerType } from '@/constants';
 import { Remote } from '../config';
 
 /**
@@ -33,6 +34,11 @@ export interface WorkflowRunnerOptions {
      * 注入环境变量
      */
     inject?: Record<string, any>;
+
+    /**
+     * 触发方式
+     */
+    triggerType: WorkflowTriggerType;
 }
 
 /**
@@ -89,6 +95,14 @@ export interface WorkflowInjectOptions {
      * 需要注入的变量
      */
     variables?: Record<string, any>;
+    /**
+     * 需要合并的目标地址
+     */
+    remote: Remote;
+    /**
+     * 触发方式
+     */
+    triggerType: WorkflowTriggerType;
 }
 
 /**

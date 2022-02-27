@@ -1,3 +1,4 @@
+import { WorkflowTriggerType } from '@/constants';
 import { PullRequestUpdateType } from '../pull_request';
 
 /**
@@ -93,4 +94,16 @@ export interface GlobalConfig {
      * PR 相关配置项
      */
     pr?: PullRequestConfig;
+
+    /**
+     * 自定义注入
+     *
+     * 自定义注入的变量会覆盖原有变量
+     *
+     * @default
+     * {}
+     */
+    inject?:
+        | Record<string, string>
+        | ((owner: Owner, repo: Repo, trigger: WorkflowTriggerType) => Record<string, string>);
 }

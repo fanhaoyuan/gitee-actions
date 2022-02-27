@@ -16,6 +16,7 @@ import {
 } from './interfaces';
 
 import { normalizeInjection } from './utils';
+import { isFunction } from 'lodash';
 
 @Injectable()
 export class WorkflowService {
@@ -58,7 +59,7 @@ export class WorkflowService {
      * 拉取并推送代码
      */
     async run(options: WorkflowRunnerOptions, runner?: () => Promise<void> | void) {
-        const { directory, remote, branch, message, inject, checkout = this.checkout } = options;
+        const { directory, remote, branch, message, inject, checkout = this.checkout, triggerType } = options;
         /**
          * 创建临时工作区
          */
@@ -81,6 +82,8 @@ export class WorkflowService {
             await this.inject({
                 directory,
                 variables: inject,
+                remote,
+                triggerType,
             });
         }
 
@@ -106,7 +109,7 @@ export class WorkflowService {
      * @param variables 需要注入的环境变量
      */
     async inject(options: WorkflowInjectOptions) {
-        const { directory, variables = {} } = options;
+        const { directory, variables = {}, remote, triggerType } = options;
 
         const yamlFiles = await glob([
             path.resolve(directory, '.github/workflows', '*.yml'),
@@ -121,7 +124,13 @@ export class WorkflowService {
             try {
                 yml = yaml.parse(file);
 
-                Object.assign((yml.env ??= {}), normalizeInjection(variables));
+                const [owner, repo] = this.configService.resolveURL(remote);
+
+                const customInject = isFunction(this.configService.config.inject)
+                    ? this.configService.config.inject(owner, repo, triggerType)
+                    : this.configService.config.inject;
+
+                Object.assign((yml.env ??= {}), normalizeInjection({ ...variables, ...customInject }));
             } catch (error) {
                 console.log('YAML 文档解析错误：', error);
                 yml = file;

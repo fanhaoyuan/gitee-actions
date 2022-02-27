@@ -42,6 +42,8 @@ describe('ConfigService', () => {
             'source_branch_changed',
             'target_branch_changed',
         ]);
+
+        expect(configService.config.inject).toStrictEqual({});
     });
 
     it('Mode Getter', () => {
@@ -69,6 +71,7 @@ describe('ConfigService', () => {
             pr: {
                 updateTriggerType: ['source_branch_changed', 'target_branch_changed'],
             },
+            inject: {},
         };
 
         const globalConfig: GlobalConfig = {
@@ -77,6 +80,7 @@ describe('ConfigService', () => {
             pr: {
                 updateTriggerType: ['source_branch_changed', 'target_branch_changed'],
             },
+            inject: (owner, repo, triggerType) => ({ test: 'string' }),
         };
 
         const mergedConfig = configService.mergeConfig(baseConfig, globalConfig);
@@ -86,6 +90,8 @@ describe('ConfigService', () => {
         expect(mergedConfig.pr).toStrictEqual(globalConfig.pr);
 
         expect(mergedConfig.rewrite).toBe(baseConfig.rewrite);
+
+        expect(typeof mergedConfig.inject === 'function').toBe(true);
     });
 
     it('检查URL是否是SSH', () => {
