@@ -68,7 +68,7 @@ interface PullRequestConfig {
 }
 ```
 
-### inject
+### inject <Badge>v1.2.0+</Badge>
 
 -   类型: `Record<string, string> | ((owner: Owner, repo: Repo, trigger: WorkflowTriggerType) => Record<string, string>)`
 -   默认值: `{}`
