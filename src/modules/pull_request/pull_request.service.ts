@@ -1,3 +1,4 @@
+import { WorkflowTriggerType } from '@/constants';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '../config';
 import { WorkflowService } from '../workflow';
@@ -31,6 +32,7 @@ export class PullRequestService {
                 remote: this.configService.getRemoteByURL('gitee', source.remote.http),
                 message: title,
                 inject: pr,
+                triggerType: WorkflowTriggerType.PULL_REQUEST,
             },
             runner
         );
@@ -51,6 +53,7 @@ export class PullRequestService {
             message: title,
             branch: target.branch,
             inject: pr,
+            triggerType: WorkflowTriggerType.PULL_REQUEST,
         });
     }
 

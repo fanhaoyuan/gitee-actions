@@ -37,6 +37,7 @@ export class ConfigService {
             pr: {
                 updateTriggerType: ['source_branch_changed', 'target_branch_changed'],
             },
+            inject: {},
         };
     }
 
