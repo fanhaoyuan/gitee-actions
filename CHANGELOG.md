@@ -1,3 +1,7 @@
+## v1.2.0
+
+-   🚀 添加自定义注入项 ([#9](https://github.com/fanhaoyuan/gitee-actions/pull/9))
+
 ## v1.1.1
 
 -   🐛 修复修复发布 API 路径解析错误问题 ([#6](https://github.com/fanhaoyuan/gitee-actions/pull/6))
